@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Model Canvas Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .journey-container {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .journey-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .section-header .description {
+            color: #aaa;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            border: 1px solid #3d3d5c;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tips-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .tips-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-box li {
+            padding: 8px 0;
+            color: #ccc;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .tips-box li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        .input-section {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ddd;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0f0f0f;
+            border: 2px solid #3d3d5c;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .add-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .add-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .items-list {
+            margin-top: 20px;
+        }
+
+        .item-block {
+            background: #2d2d44;
+            border: 1px solid #3d3d5c;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .item-block .text {
+            flex: 1;
+            color: #fff;
+        }
+
+        .item-block .remove {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .nav-button {
+            background: #2d2d44;
+            color: white;
+            border: 1px solid #3d3d5c;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #3d3d5c;
+        }
+
+        .nav-button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+        .nav-button.primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            background: #1a1a2e;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+        }
+
+        /* Final Canvas Styles */
+        .canvas-view {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr auto;
+            gap: 15px;
+            min-height: 600px;
+        }
+
+        .canvas-section {
+            background: #0f0f0f;
+            border: 2px solid;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .canvas-section-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid;
+        }
+
+        .canvas-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .canvas-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .canvas-item.editing {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Color-coded sections */
+        .key-partners { grid-column: 1; grid-row: 1 / 3; border-color: #38a169; }
+        .key-activities { grid-column: 2; grid-row: 1; border-color: #38a169; }
+        .key-resources { grid-column: 2; grid-row: 2; border-color: #38a169; }
+        .value-prop { grid-column: 3; grid-row: 1 / 3; border-color: #ea580c; border-width: 3px; }
+        .relationships { grid-column: 4; grid-row: 1; border-color: #2563eb; }
+        .channels { grid-column: 4; grid-row: 2; border-color: #2563eb; }
+        .customers { grid-column: 5; grid-row: 1 / 3; border-color: #2563eb; }
+        .cost-structure { grid-column: 1 / 4; grid-row: 3; border-color: #7c3aed; }
+        .revenue-streams { grid-column: 4 / 6; grid-row: 3; border-color: #7c3aed; }
+
+        .key-partners .canvas-section-title,
+        .key-activities .canvas-section-title,
+        .key-resources .canvas-section-title { border-bottom-color: #38a169; }
+        
+        .value-prop .canvas-section-title { border-bottom-color: #ea580c; }
+        
+        .relationships .canvas-section-title,
+        .channels .canvas-section-title,
+        .customers .canvas-section-title { border-bottom-color: #2563eb; }
+        
+        .cost-structure .canvas-section-title,
+        .revenue-streams .canvas-section-title { border-bottom-color: #7c3aed; }
+
+        .key-partners .canvas-item,
+        .key-activities .canvas-item,
+        .key-resources .canvas-item { border-left-color: #38a169; }
+        
+        .value-prop .canvas-item { border-left-color: #ea580c; }
+        
+        .relationships .canvas-item,
+        .channels .canvas-item,
+        .customers .canvas-item { border-left-color: #2563eb; }
+        
+        .cost-structure .canvas-item,
+        .revenue-streams .canvas-item { border-left-color: #7c3aed; }
+
+        .export-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .export-button {
+            background: #2d2d44;
+            color: white;
+            border: 1px solid #3d3d5c;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .export-button:hover {
+            background: #3d3d5c;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .import-section {
+            margin-top: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            background: #2d2d44;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-label:hover {
+            background: #3d3d5c;
+        }
+
+        @media (max-width: 1200px) {
+            .canvas-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+            }
+            
+            .canvas-section {
+                grid-column: span 2 !important;
+                grid-row: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Business Model Canvas Builder</h1>
+            <p>Build your Osterwalder Business Model Canvas step by step</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <!-- Journey Sections -->
+        <div id="journey-1" class="journey-container active">
+            <div class="section-header">
+                <h2>🎯 Customer Segments</h2>
+                <p class="description">Let's start by identifying who your customers are. These are the different groups of people or organizations your business aims to reach and serve.</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Customer Segments</h3>
+                <ul>
+                    <li>Think about different groups with distinct needs, behaviors, or attributes</li>
+                    <li>Consider both direct users and decision-makers</li>
+                    <li>Be specific - "everyone" is not a customer segment</li>
+                    <li>Consider demographics, behaviors, and pain points</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="customer-input">Add a customer segment:</label>
+                    <input type="text" id="customer-input" placeholder="e.g., Small business owners, Students aged 18-25">
+                </div>
+                <button class="add-button" onclick="addItem('customers')">Add Customer Segment</button>
+                <div class="items-list" id="customers-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" disabled>Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Value Proposition</button>
+            </div>
+        </div>
+
+        <div id="journey-2" class="journey-container">
+            <div class="section-header">
+                <h2>💎 Value Proposition</h2>
+                <p class="description">Now, what value do you deliver to these customers? What problems are you solving or needs are you satisfying?</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Value Proposition</h3>
+                <ul>
+                    <li>Focus on benefits, not features</li>
+                    <li>Address specific customer pain points or gains</li>
+                    <li>Think about what makes you unique</li>
+                    <li>Consider functional, social, and emotional value</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="value-input">Add a value proposition:</label>
+                    <input type="text" id="value-input" placeholder="e.g., Save time with automated invoicing">
+                </div>
+                <button class="add-button" onclick="addItem('valueProp')">Add Value Proposition</button>
+                <div class="items-list" id="valueProp-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Customer Relationships</button>
+            </div>
+        </div>
+
+        <div id="journey-3" class="journey-container">
+            <div class="section-header">
+                <h2>🤝 Customer Relationships</h2>
+                <p class="description">How do you interact with your customers? What type of relationship does each customer segment expect?</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Customer Relationships</h3>
+                <ul>
+                    <li>Consider the level of personal interaction (self-service, automated, personal)</li>
+                    <li>Think about the customer journey stages</li>
+                    <li>Balance cost with customer expectations</li>
+                    <li>Consider retention strategies</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="relationship-input">Add a relationship type:</label>
+                    <input type="text" id="relationship-input" placeholder="e.g., Personal assistance, Self-service portal">
+                </div>
+                <button class="add-button" onclick="addItem('relationships')">Add Relationship Type</button>
+                <div class="items-list" id="relationships-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Channels</button>
+            </div>
+        </div>
+
+        <div id="journey-4" class="journey-container">
+            <div class="section-header">
+                <h2>📡 Channels</h2>
+                <p class="description">Through which channels do your customers want to be reached? How are you delivering your value proposition?</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Channels</h3>
+                <ul>
+                    <li>Consider all customer touchpoints</li>
+                    <li>Think about awareness, evaluation, purchase, delivery, and after-sales</li>
+                    <li>Mix of direct and indirect channels</li>
+                    <li>Online and offline presence</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="channel-input">Add a channel:</label>
+                    <input type="text" id="channel-input" placeholder="e.g., Website, Mobile app, Retail stores">
+                </div>
+                <button class="add-button" onclick="addItem('channels')">Add Channel</button>
+                <div class="items-list" id="channels-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Key Partners</button>
+            </div>
+        </div>
+
+        <div id="journey-5" class="journey-container">
+            <div class="section-header">
+                <h2>🤝 Key Partners</h2>
+                <p class="description">Who are your key partners and suppliers? Which key resources do you acquire from partners?</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Key Partners</h3>
+                <ul>
+                    <li>Strategic alliances with non-competitors</li>
+                    <li>Partnerships with competitors (coopetition)</li>
+                    <li>Joint ventures for new businesses</li>
+                    <li>Buyer-supplier relationships</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="partner-input">Add a key partner:</label>
+                    <input type="text" id="partner-input" placeholder="e.g., Cloud providers, Payment processors">
+                </div>
+                <button class="add-button" onclick="addItem('keyPartners')">Add Key Partner</button>
+                <div class="items-list" id="keyPartners-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Key Activities</button>
+            </div>
+        </div>
+
+        <div id="journey-6" class="journey-container">
+            <div class="section-header">
+                <h2>⚡ Key Activities</h2>
+                <p class="description">What key activities does your value proposition require? What must you do well?</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Key Activities</h3>
+                <ul>
+                    <li>Production activities (designing, making, delivering)</li>
+                    <li>Problem-solving activities (consulting, service)</li>
+                    <li>Platform/network activities (maintaining, promoting)</li>
+                    <li>Consider what you must excel at</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="activity-input">Add a key activity:</label>
+                    <input type="text" id="activity-input" placeholder="e.g., Software development, Customer support">
+                </div>
+                <button class="add-button" onclick="addItem('keyActivities')">Add Key Activity</button>
+                <div class="items-list" id="keyActivities-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Key Resources</button>
+            </div>
+        </div>
+
+        <div id="journey-7" class="journey-container">
+            <div class="section-header">
+                <h2>🔧 Key Resources</h2>
+                <p class="description">What key resources does your value proposition require? These are the most important assets.</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Key Resources</h3>
+                <ul>
+                    <li>Physical resources (facilities, machines, systems)</li>
+                    <li>Intellectual resources (brands, patents, data)</li>
+                    <li>Human resources (expertise, skills)</li>
+                    <li>Financial resources (cash, credit lines)</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="resource-input">Add a key resource:</label>
+                    <input type="text" id="resource-input" placeholder="e.g., Development team, Patent portfolio">
+                </div>
+                <button class="add-button" onclick="addItem('keyResources')">Add Key Resource</button>
+                <div class="items-list" id="keyResources-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Cost Structure</button>
+            </div>
+        </div>
+
+        <div id="journey-8" class="journey-container">
+            <div class="section-header">
+                <h2>💰 Cost Structure</h2>
+                <p class="description">What are the most important costs in your business model? Which resources and activities are most expensive?</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Cost Structure</h3>
+                <ul>
+                    <li>Fixed costs (salaries, rent, utilities)</li>
+                    <li>Variable costs (materials, commissions)</li>
+                    <li>Economies of scale and scope</li>
+                    <li>Consider cost-driven vs value-driven approach</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="cost-input">Add a cost element:</label>
+                    <input type="text" id="cost-input" placeholder="e.g., Staff salaries, Cloud hosting">
+                </div>
+                <button class="add-button" onclick="addItem('costStructure')">Add Cost Element</button>
+                <div class="items-list" id="costStructure-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="nextSection()">Next: Revenue Streams</button>
+            </div>
+        </div>
+
+        <div id="journey-9" class="journey-container">
+            <div class="section-header">
+                <h2>💸 Revenue Streams</h2>
+                <p class="description">For what value are your customers willing to pay? How would they prefer to pay?</p>
+            </div>
+
+            <div class="tips-box">
+                <h3>💡 Tips for Revenue Streams</h3>
+                <ul>
+                    <li>Asset sale, usage fee, subscription fees</li>
+                    <li>Licensing, brokerage fees, advertising</li>
+                    <li>Consider pricing mechanisms</li>
+                    <li>Think about customer payment preferences</li>
+                </ul>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="revenue-input">Add a revenue stream:</label>
+                    <input type="text" id="revenue-input" placeholder="e.g., Monthly subscriptions, Transaction fees">
+                </div>
+                <button class="add-button" onclick="addItem('revenueStreams')">Add Revenue Stream</button>
+                <div class="items-list" id="revenueStreams-list"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousSection()">Previous</button>
+                <button class="nav-button primary" onclick="finishCanvas()">Complete Canvas</button>
+            </div>
+        </div>
+
+        <div id="journey-10" class="journey-container">
+            <div class="section-header">
+                <h2>🎉 Your Business Model Canvas</h2>
+                <p class="description">Congratulations! Here's your complete Business Model Canvas. Click on any item to edit it.</p>
+            </div>
+
+            <div class="canvas-view">
+                <div class="canvas-grid" id="finalCanvas">
+                    <div class="canvas-section key-partners">
+                        <div class="canvas-section-title">Key Partners</div>
+                        <div id="canvas-keyPartners"></div>
+                    </div>
+                    <div class="canvas-section key-activities">
+                        <div class="canvas-section-title">Key Activities</div>
+                        <div id="canvas-keyActivities"></div>
+                    </div>
+                    <div class="canvas-section key-resources">
+                        <div class="canvas-section-title">Key Resources</div>
+                        <div id="canvas-keyResources"></div>
+                    </div>
+                    <div class="canvas-section value-prop">
+                        <div class="canvas-section-title">Value Propositions</div>
+                        <div id="canvas-valueProp"></div>
+                    </div>
+                    <div class="canvas-section relationships">
+                        <div class="canvas-section-title">Customer Relationships</div>
+                        <div id="canvas-relationships"></div>
+                    </div>
+                    <div class="canvas-section channels">
+                        <div class="canvas-section-title">Channels</div>
+                        <div id="canvas-channels"></div>
+                    </div>
+                    <div class="canvas-section customers">
+                        <div class="canvas-section-title">Customer Segments</div>
+                        <div id="canvas-customers"></div>
+                    </div>
+                    <div class="canvas-section cost-structure">
+                        <div class="canvas-section-title">Cost Structure</div>
+                        <div id="canvas-costStructure"></div>
+                    </div>
+                    <div class="canvas-section revenue-streams">
+                        <div class="canvas-section-title">Revenue Streams</div>
+                        <div id="canvas-revenueStreams"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-section">
+                <button class="export-button" onclick="exportCanvas('png')">Export as PNG</button>
+                <button class="export-button" onclick="exportCanvas('svg')">Export as SVG</button>
+                <button class="export-button" onclick="exportCanvas('jpg')">Export as JPG</button>
+                <button class="export-button" onclick="exportCanvas('json')">Export as JSON</button>
+                <button class="export-button" onclick="showImportModal()">Import JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeImportModal()">×</button>
+            <h3>Import Business Model Canvas</h3>
+            <div class="import-section">
+                <p>Select a JSON file exported from this tool:</p>
+                <input type="file" id="fileInput" class="file-input" accept=".json" onchange="handleFileImport(event)">
+                <label for="fileInput" class="file-label">Choose File</label>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        let currentSection = 1;
+        const totalSections = 10;
+        const canvasData = {
+            customers: [],
+            valueProp: [],
+            relationships: [],
+            channels: [],
+            keyPartners: [],
+            keyActivities: [],
+            keyResources: [],
+            costStructure: [],
+            revenueStreams: []
+        };
+
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        function showSection(sectionNumber) {
+            document.querySelectorAll('.journey-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.getElementById(`journey-${sectionNumber}`).classList.add('active');
+            updateProgress();
+        }
+
+        function nextSection() {
+            if (currentSection < totalSections) {
+                currentSection++;
+                showSection(currentSection);
+            }
+        }
+
+        function previousSection() {
+            if (currentSection > 1) {
+                currentSection--;
+                showSection(currentSection);
+            }
+        }
+
+        function addItem(category) {
+            const inputId = category === 'valueProp' ? 'value-input' : 
+                           category === 'keyPartners' ? 'partner-input' :
+                           category === 'keyActivities' ? 'activity-input' :
+                           category === 'keyResources' ? 'resource-input' :
+                           category === 'costStructure' ? 'cost-input' :
+                           category === 'revenueStreams' ? 'revenue-input' :
+                           category === 'relationships' ? 'relationship-input' :
+                           category === 'channels' ? 'channel-input' :
+                           'customer-input';
+            
+            const input = document.getElementById(inputId);
+            const value = input.value.trim();
+            
+            if (value) {
+                canvasData[category].push(value);
+                input.value = '';
+                renderList(category);
+            }
+        }
+
+        function removeItem(category, index) {
+            canvasData[category].splice(index, 1);
+            renderList(category);
+        }
+
+        function renderList(category) {
+            const listElement = document.getElementById(`${category}-list`);
+            listElement.innerHTML = '';
+            
+            canvasData[category].forEach((item, index) => {
+                const itemBlock = document.createElement('div');
+                itemBlock.className = 'item-block';
+                itemBlock.innerHTML = `
+                    <span class="text">${item}</span>
+                    <button class="remove" onclick="removeItem('${category}', ${index})">Remove</button>
+                `;
+                listElement.appendChild(itemBlock);
+            });
+        }
+
+        function finishCanvas() {
+            currentSection = 10;
+            showSection(10);
+            renderFinalCanvas();
+        }
+
+        function renderFinalCanvas() {
+            Object.keys(canvasData).forEach(category => {
+                const container = document.getElementById(`canvas-${category}`);
+                container.innerHTML = '';
+                
+                canvasData[category].forEach((item, index) => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'canvas-item';
+                    itemElement.textContent = item;
+                    itemElement.onclick = () => editCanvasItem(category, index);
+                    container.appendChild(itemElement);
+                });
+            });
+        }
+
+        function editCanvasItem(category, index) {
+            const newValue = prompt('Edit item:', canvasData[category][index]);
+            if (newValue !== null && newValue.trim() !== '') {
+                canvasData[category][index] = newValue.trim();
+                renderFinalCanvas();
+            }
+        }
+
+        async function exportCanvas(format) {
+            const canvas = document.getElementById('finalCanvas');
+            
+            if (format === 'json') {
+                const dataStr = JSON.stringify(canvasData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `business-model-canvas-${Date.now()}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+                return;
+            }
+            
+            const canvasElement = await html2canvas(canvas, {
+                backgroundColor: '#0f0f0f',
+                scale: 2
+            });
+            
+            if (format === 'png' || format === 'jpg') {
+                canvasElement.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `business-model-canvas-${Date.now()}.${format}`;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                }, format === 'png' ? 'image/png' : 'image/jpeg');
+            } else if (format === 'svg') {
+                // For SVG, we'll create a simple representation
+                const svgContent = createSVGFromCanvas();
+                const blob = new Blob([svgContent], {type: 'image/svg+xml'});
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `business-model-canvas-${Date.now()}.svg`;
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        function createSVGFromCanvas() {
+            // Simple SVG representation
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+                <rect width="1200" height="800" fill="#0f0f0f"/>
+                <text x="600" y="40" text-anchor="middle" fill="white" font-size="24" font-weight="bold">Business Model Canvas</text>`;
+            
+            // Add sections (simplified)
+            const sections = [
+                {name: 'Key Partners', x: 50, y: 100, data: canvasData.keyPartners},
+                {name: 'Key Activities', x: 250, y: 100, data: canvasData.keyActivities},
+                {name: 'Key Resources', x: 250, y: 250, data: canvasData.keyResources},
+                {name: 'Value Propositions', x: 450, y: 100, data: canvasData.valueProp},
+                {name: 'Customer Relationships', x: 750, y: 100, data: canvasData.relationships},
+                {name: 'Channels', x: 750, y: 250, data: canvasData.channels},
+                {name: 'Customer Segments', x: 950, y: 100, data: canvasData.customers},
+                {name: 'Cost Structure', x: 50, y: 450, data: canvasData.costStructure},
+                {name: 'Revenue Streams', x: 600, y: 450, data: canvasData.revenueStreams}
+            ];
+            
+            sections.forEach(section => {
+                svg += `<text x="${section.x}" y="${section.y}" fill="white" font-size="16" font-weight="bold">${section.name}</text>`;
+                section.data.forEach((item, index) => {
+                    svg += `<text x="${section.x}" y="${section.y + 25 + (index * 20)}" fill="#ccc" font-size="14">${item}</text>`;
+                });
+            });
+            
+            svg += '</svg>';
+            return svg;
+        }
+
+        function showImportModal() {
+            document.getElementById('importModal').classList.add('active');
+        }
+
+        function closeImportModal() {
+            document.getElementById('importModal').classList.remove('active');
+        }
+
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/json') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        
+                        // Validate the imported data
+                        const requiredKeys = Object.keys(canvasData);
+                        const isValid = requiredKeys.every(key => 
+                            Array.isArray(importedData[key])
+                        );
+                        
+                        if (isValid) {
+                            // Import the data
+                            Object.keys(importedData).forEach(key => {
+                                if (canvasData.hasOwnProperty(key)) {
+                                    canvasData[key] = importedData[key];
+                                }
+                            });
+                            
+                            // Go to final canvas
+                            currentSection = 10;
+                            showSection(10);
+                            renderFinalCanvas();
+                            closeImportModal();
+                            
+                            alert('Canvas imported successfully!');
+                        } else {
+                            alert('Invalid file format. Please select a valid Business Model Canvas JSON file.');
+                        }
+                    } catch (error) {
+                        alert('Error reading file. Please ensure it\'s a valid JSON file.');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        // Handle Enter key for adding items
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const category = input.id.replace('-input', '');
+                        const categoryMap = {
+                            'customer': 'customers',
+                            'value': 'valueProp',
+                            'relationship': 'relationships',
+                            'channel': 'channels',
+                            'partner': 'keyPartners',
+                            'activity': 'keyActivities',
+                            'resource': 'keyResources',
+                            'cost': 'costStructure',
+                            'revenue': 'revenueStreams'
+                        };
+                        addItem(categoryMap[category]);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
