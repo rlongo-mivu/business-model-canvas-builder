@@ -209,6 +209,7 @@
             justify-content: space-between;
             align-items: center;
             animation: slideIn 0.3s ease-out;
+            curosor: text;
         }
 
         @keyframes slideIn {
@@ -223,6 +224,16 @@
 
         .item-block .remove {
             background: #ff4757;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .item-block .edit {
+            background: #2d2d44;
             color: white;
             border: none;
             padding: 6px 12px;
@@ -1269,6 +1280,7 @@
                     itemBlock.className = 'item-block';
                     itemBlock.innerHTML = `
                         <span class="text">${item}</span>
+                        <button class="edit" onclick="editCanvasItem('${category}', ${index})">Remove</button>
                         <button class="remove" onclick="removeItem('${category}', ${index})">Remove</button>
                     `;
                     itemBlock.onclick = (e) => {
