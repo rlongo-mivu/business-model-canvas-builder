@@ -1217,6 +1217,7 @@
 
         function nextSection() {
             if (currentSection < totalSections) {
+                const inputs = document.querySelectorAll('input[type="text"]');
                 const category = input.id.replace('-input', '');
                 const categoryMap = {
                     'customer': 'customers',
