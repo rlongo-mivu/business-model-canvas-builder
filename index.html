@@ -1217,6 +1217,23 @@
 
         function nextSection() {
             if (currentSection < totalSections) {
+                const category = input.id.replace('-input', '');
+                const categoryMap = {
+                    'customer': 'customers',
+                    'value': 'valueProp',
+                    'relationship': 'relationships',
+                    'channel': 'channels',
+                    'partner': 'keyPartners',
+                    'activity': 'keyActivities',
+                    'resource': 'keyResources',
+                    'cost': 'costStructure',
+                    'revenue': 'revenueStreams'
+                };
+                const value = input.value.trim()
+                if (input.id !== 'business-name-input' && categoryMap[category] && value.length > 0) {
+                    addItem(categoryMap[category]);
+                }
+                
                 currentSection++;
                 showSection(currentSection);
             }
@@ -1269,6 +1286,11 @@
                         <span class="text">${item}</span>
                         <button class="remove" onclick="removeItem('${category}', ${index})">Remove</button>
                     `;
+                    itemBlock.onclick = (e) => {
+                        if (!e.target.classList.contains('delete-item-button')) {
+                            editCanvasItem(category, index);
+                        }
+                    };
                     listElement.appendChild(itemBlock);
                 });
             }
