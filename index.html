@@ -703,7 +703,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Value Proposition</button>
+                <button class="nav-button primary" onclick="nextSection('customers')">Next: Value Proposition</button>
             </div>
         </div>
 
@@ -734,7 +734,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Customer Relationships</button>
+                <button class="nav-button primary" onclick="nextSection('valueProp')">Next: Customer Relationships</button>
             </div>
         </div>
 
@@ -775,7 +775,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Channels</button>
+                <button class="nav-button primary" onclick="nextSection('relationships')">Next: Channels</button>
             </div>
         </div>
 
@@ -816,7 +816,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Key Partners</button>
+                <button class="nav-button primary" onclick="nextSection('channels')">Next: Key Partners</button>
             </div>
         </div>
 
@@ -847,7 +847,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Key Activities</button>
+                <button class="nav-button primary" onclick="nextSection('keyPartners')">Next: Key Activities</button>
             </div>
         </div>
 
@@ -888,7 +888,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Key Resources</button>
+                <button class="nav-button primary" onclick="nextSection('keyActivities')">Next: Key Resources</button>
             </div>
         </div>
 
@@ -929,7 +929,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Cost Structure</button>
+                <button class="nav-button primary" onclick="nextSection('keyResources')">Next: Cost Structure</button>
             </div>
         </div>
 
@@ -960,7 +960,7 @@
 
             <div class="navigation">
                 <button class="nav-button" onclick="previousSection()">Previous</button>
-                <button class="nav-button primary" onclick="nextSection()">Next: Revenue Streams</button>
+                <button class="nav-button primary" onclick="nextSection('costStructure')">Next: Revenue Streams</button>
             </div>
         </div>
 
@@ -1215,26 +1215,9 @@
             showSection(1);
         }
 
-        function nextSection() {
+        function nextSection(category) {
             if (currentSection < totalSections) {
-                const inputs = document.querySelectorAll('input[type="text"]');
-                const category = input.id.replace('-input', '');
-                const categoryMap = {
-                    'customer': 'customers',
-                    'value': 'valueProp',
-                    'relationship': 'relationships',
-                    'channel': 'channels',
-                    'partner': 'keyPartners',
-                    'activity': 'keyActivities',
-                    'resource': 'keyResources',
-                    'cost': 'costStructure',
-                    'revenue': 'revenueStreams'
-                };
-                const value = input.value.trim()
-                if (input.id !== 'business-name-input' && categoryMap[category] && value.length > 0) {
-                    addItem(categoryMap[category]);
-                }
-                
+                addItem(category);
                 currentSection++;
                 showSection(currentSection);
             }
