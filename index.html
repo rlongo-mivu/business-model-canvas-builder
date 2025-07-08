@@ -1284,7 +1284,7 @@
                         <button class="remove" onclick="removeItem('${category}', ${index})">Remove</button>
                     `;
                     itemBlock.onclick = (e) => {
-                        if (!e.target.classList.contains('delete-item-button')) {
+                        if (!e.target.classList.contains('delete-item-button') and !e.target.classList.contains('edit')) {
                             editCanvasItem(category, index);
                         }
                     };
